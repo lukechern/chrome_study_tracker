@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "每日学习打卡",
   "version": "1.0",
-  "description": "每日学习打卡插件，显示在chrome侧边栏 Daily study punch-in plugin, displayed in the Chrome sidebar",
+  "description": "A daily study tracker for the Chrome sidebar.",
   "permissions": [
     "storage",
     "tabs",
