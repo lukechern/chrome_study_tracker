@@ -1,4 +1,7 @@
 export function showTooltip(element, content) {
+  // Remove any existing tooltips first
+  hideTooltip();
+
   const tooltip = document.createElement('div');
   tooltip.className = 'calendar-tooltip_7ree'; // Reusing calendar tooltip style
   tooltip.innerHTML = content;

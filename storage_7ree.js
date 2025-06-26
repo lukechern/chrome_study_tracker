@@ -20,7 +20,7 @@ export const Storage_7ree = {
   },
   logStudy_7ree(projectId) {
     const now = new Date();
-    const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // YYYY-MM-DD (Local Time)
     const time = now.toTimeString().slice(0, 5); // HH:MM
 
     let logs = this.getLogs_7ree();

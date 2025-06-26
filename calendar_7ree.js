@@ -4,6 +4,9 @@ import { showTooltip, hideTooltip } from './utils_7ree.js';
 export function renderCalendar_7ree(container, displayYear = new Date().getFullYear(), displayMonth = new Date().getMonth()) {
   const logs = Storage_7ree.getLogs_7ree();
   const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayDate = today.getDate();
 
   // Month and Year Header
   const header = document.createElement('div');
@@ -107,7 +110,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
     cell.className = 'calendar-day_7ree';
     cell.dataset.date = dateStr; // Add data-date attribute
 
-    if (day === today.getDate() && displayMonth === today.getMonth() && displayYear === today.getFullYear()) {
+    if (day === todayDate && displayMonth === todayMonth && displayYear === todayYear) {
         cell.classList.add('today_7ree');
     }
 

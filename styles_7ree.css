@@ -94,7 +94,7 @@ h2 {
 }
 
 #theme_toggle_7ree:hover, #open_config_7ree:hover {
-  background-color: var(--header-bg-hover);
+background-color: var(--header-bg-hover);
 }
 
 hr {
@@ -116,7 +116,7 @@ hr {
 }
 
 .calendar-header_7ree span {
-    font-size: 18px; /* Larger font size for the month/year text */
+    font-size: 16px; /* Larger font size for the month/year text */
     font-weight: bold;
 }
 
@@ -179,7 +179,7 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 0 8px;
+  padding: 5px 0px;
 }
 
 .project-card_7ree {
@@ -388,4 +388,12 @@ hr {
     pointer-events: none; /* Allow clicks to pass through */
     white-space: nowrap;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.current-date_7ree {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    color: var(--text-color);
 }

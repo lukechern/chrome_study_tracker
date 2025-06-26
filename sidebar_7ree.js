@@ -5,6 +5,7 @@ import { showTooltip, hideTooltip } from './utils_7ree.js';
 document.addEventListener('DOMContentLoaded', () => {
     const calendarEl_7ree = document.getElementById('calendar_7ree');
     const projectsEl_7ree = document.getElementById('projects_7ree');
+    const currentDateEl_7ree = document.getElementById('current_date_7ree');
     const themeToggleBtn = document.getElementById('theme_toggle_7ree');
 
     // Function to apply theme
@@ -61,21 +62,41 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+        const now = new Date();
+        const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // YYYY-MM-DD (Local Time)
 
         // Sort projects: unpunched first, then punched
         projects.sort((a, b) => {
-            const isAPunched = logs[today] && logs[today][a.id];
-            const isBPunched = logs[today] && logs[today][b.id];
-            if (isAPunched && !isBPunched) return 1; // A is punched, B is not, A goes after B
-            if (!isAPunched && isBPunched) return -1; // A is not punched, B is, A goes before B
+            const logA = logs[today] ? (Array.isArray(logs[today][a.id]) ? logs[today][a.id].length > 0 : logs[today][a.id] > 0) : false;
+            const logB = logs[today] ? (Array.isArray(logs[today][b.id]) ? logs[today][b.id].length > 0 : logs[today][b.id] > 0) : false;
+
+            if (logA && !logB) return 1; // A is punched, B is not, A goes after B
+            if (!logA && logB) return -1; // A is not punched, B is, A goes before B
             return 0; // Maintain original order if both are same status
         });
 
         projects.forEach((p) => {
             const logsForProject = logs[today] || {};
-            const isPunched = logsForProject[p.id]; // Check if punched today
-            const totalDays = Object.keys(logs).filter(date => logs[date][p.id]).length;
+            let isPunched = false;
+            if (Array.isArray(logsForProject[p.id])) {
+                isPunched = logsForProject[p.id].length > 0;
+            } else if (typeof logsForProject[p.id] === 'number') {
+                isPunched = logsForProject[p.id] > 0;
+            }
+
+            let totalDays = 0;
+            for (const date in logs) {
+                const dailyLog = logs[date][p.id];
+                if (Array.isArray(dailyLog)) {
+                    if (dailyLog.length > 0) {
+                        totalDays++;
+                    }
+                } else if (typeof dailyLog === 'number') {
+                    if (dailyLog > 0) {
+                        totalDays++;
+                    }
+                }
+            }
 
             const card = document.createElement('div');
             card.className = 'project-card_7ree' + (isPunched ? ' punched-in_7ree' : '');
@@ -83,10 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="project-info_7ree">
                     <h3 data-desc="${p.desc}">${p.name}</h3>
-                    <p class="study-days_7ree">已打卡 ${totalDays} 天</p>
+                    <p class="study-days_7ree">累计打卡 ${totalDays} 天</p>
                 </div>
                 <button class="punch-btn_7ree ${isPunched ? 'punched-in_7ree' : ''}" data-id="${p.id}" data-url="${p.url}" ${isPunched ? 'disabled' : ''}>
-                    ${isPunched ? '已打卡' : '打卡'}
+                    ${isPunched ? '今日已打卡' : '打卡'}
                 </button>
             `;
             projectsEl_7ree.appendChild(card);
@@ -118,7 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderAll() {
-        renderCalendar_7ree(calendarEl_7ree, new Date().getFullYear(), new Date().getMonth());
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        currentDateEl_7ree.textContent = now.toLocaleDateString('zh-CN', options);
+
+        renderCalendar_7ree(calendarEl_7ree, now.getFullYear(), now.getMonth());
         renderProjects_7ree();
     }
 
