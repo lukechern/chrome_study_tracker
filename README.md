@@ -60,6 +60,14 @@ Using this tracker is as intuitive as breathing (unless you're a fish, then mayb
 **English:**
 This project is licensed under the MIT License. For more details, please refer to the `LICENSE` file in the project root directory.
 
+## 🙏 致谢 (Acknowledgements)
+
+**中文 (Chinese):**
+特别感谢我们的AI小伙伴 **Google Gemini CLI**，它在整个开发过程中提供了无与伦比的帮助和幽默的对话。没有它，这个项目可能还在我的“明天再做”清单里躺着呢！
+
+**English:**
+Special thanks to our AI companion, **Google Gemini CLI**, for its unparalleled assistance and witty banter throughout the development process. Without it, this project might still be languishing on my "do it tomorrow" list!
+
 ## 🔗 GitHub 仓库 (GitHub Repository)
 
 **中文 (Chinese):**
