@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>配置项目_7ree</title>
+  <link rel="stylesheet" href="styles_7ree.css">
+  <style>
+    /* Additional styles for config page */
+    body {
+        width: 1000px; /* Wider for config */
+        padding: 20px;
+        margin: 0 auto; /* Center the content */
+    }
+    .config-container {
+        max-width: 100%;
+    }
+    h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .form-section {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .form-section h2 {
+        margin-top: 0;
+        font-size: 18px;
+        border-bottom: 1px solid #dfe1e6;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+    .save-btn {
+        background-color: #0065ff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+    }
+    .project-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #dfe1e6;
+    }
+    .project-list-item:last-child {
+        border-bottom: none;
+    }
+    .delete-btn, .edit-btn {
+        background-color: #de350b;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    .edit-btn {
+        background-color: #ffab00;
+    }
+
+    /* Tab Styles */
+    .tabs-container {
+        margin-top: 20px;
+    }
+
+    .tab-buttons {
+        display: flex;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #dfe1e6;
+    }
+
+    .tab-button {
+        background-color: #f4f5f7;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .tab-button:hover {
+        background-color: #e1e4e8;
+    }
+
+    .tab-button.active {
+        background-color: #ffffff;
+        border-bottom: 2px solid #0065ff;
+        color: #0065ff;
+        font-weight: bold;
+    }
+
+    .tab-content {
+        padding-top: 10px;
+    }
+
+    /* Custom Confirm Dialog Styles */
+    .custom-confirm-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .custom-confirm-dialog {
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        transform: translateY(-20px);
+        opacity: 0;
+        animation: fadeIn 0.3s forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .custom-confirm-dialog p {
+        font-size: 18px;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    .dialog-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .dialog-button {
+        padding: 10px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .dialog-button:active {
+        transform: scale(0.98);
+    }
+
+    .dialog-button.confirm {
+        background-color: #de350b; /* Red for delete confirmation */
+        color: white;
+    }
+
+    .dialog-button.confirm:hover {
+        background-color: #bf2c09;
+    }
+
+    .dialog-button.cancel {
+        background-color: #f0f0f0;
+        color: #333;
+        border: 1px solid #ccc;
+    }
+
+    .dialog-button.cancel:hover {
+        background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="config-container">
+    <h1>管理学习项目</h1>
+    <div class="tabs-container">
+      <div class="tab-buttons">
+        <button class="tab-button active" data-tab="add-project">添加新项目</button>
+        <button class="tab-button" data-tab="list-projects">现有项目</button>
+        <button class="tab-button" data-tab="view-data">打卡数据</button>
+      </div>
+
+      <div id="add-project-tab" class="tab-content active">
+        <div class="form-section">
+          <h2 id="form-title">添加新项目</h2>
+          <form id="project-form_7ree">
+            <input type="hidden" id="project-id_7ree">
+            <div class="form-group">
+              <label for="project-name_7ree">学习项目名称</label>
+              <input type="text" id="project-name_7ree" required>
+            </div>
+            <div class="form-group">
+              <label for="project-url_7ree">学习资料网址URL</label>
+              <input type="url" id="project-url_7ree" required>
+            </div>
+            <div class="form-group">
+              <label for="project-desc_7ree">描述</label>
+              <input type="text" id="project-desc_7ree" required>
+            </div>
+            <button type="submit">保存项目</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="list-projects-tab" class="tab-content">
+        <div class="form-section">
+          <h2>现有项目</h2>
+          <div id="project-list_7ree"></div>
+        </div>
+      </div>
+
+      <div id="view-data-tab" class="tab-content">
+        <div class="form-section">
+          <h2>打卡数据</h2>
+          <div id="log-list_7ree"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="custom-confirm-dialog" class="custom-confirm-overlay" style="display:none;">
+    <div class="custom-confirm-dialog">
+      <p id="confirm-message"></p>
+      <div class="dialog-buttons">
+        <button class="dialog-button confirm" id="confirm-yes">确定</button>
+        <button class="dialog-button cancel" id="confirm-no">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="storage_7ree.js" type="module"></script>
+  <script src="config_7ree.js" type="module"></script>
+</body>
+</html>

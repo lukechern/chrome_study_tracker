@@ -1,0 +1,391 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0 auto;
+  padding: 8px;
+  width: 300px; /* Typical sidebar width */
+  box-sizing: border-box;
+}
+
+/* Theme variables */
+:root {
+    --bg-color: #f4f5f7;
+    --text-color: #172b4d;
+    --card-bg-color: #ffffff;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    --border-color: #dfe1e6;
+    --header-bg-hover: #e1e4e8;
+    --punched-day-color: #008000;
+    --punched-card-bg: #e6ffe6;
+    --button-bg-color: #e0e0e0;
+    --button-text-color: #333;
+    --button-hover-bg: #b0b0b0;
+    --delete-button-text: #dc3545;
+    --delete-button-hover-bg: #9e2202;
+    --punch-button-bg: #0065ff;
+    --punch-button-hover-bg: #0052cc;
+    --empty-state-color: #5e6c84;
+    --project-summary-color: #6c757d;
+    --tooltip-bg-color: #f0f0f0; /* Light gray for tooltip background in light mode */
+    --tooltip-text-color: #333; /* Dark text for tooltip in light mode */
+}
+
+.dark-mode {
+    --bg-color: #282c34;
+    --text-color: #abb2bf;
+    --card-bg-color: #3a3f4b;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    --border-color: #4b5263;
+    --header-bg-hover: #4b5263;
+    --punched-day-color: #6aa84f;
+    --punched-card-bg: #3a4b3a;
+    --button-bg-color: #5c6370;
+    --button-text-color: #e0e0e0;
+    --button-hover-bg: #6a737d;
+    --delete-button-text: #e06c75;
+    --delete-button-hover-bg: #c84a53;
+    --punch-button-bg: #61afef;
+    --punch-button-hover-bg: #529cd0;
+    --empty-state-color: #8b949e;
+    --project-summary-color: #8b949e;
+    --tooltip-bg-color: #333; /* Dark background for tooltip in dark mode */
+    --tooltip-text-color: #fff; /* Light text for tooltip in dark mode */
+}
+
+.header_7ree {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+}
+
+.header-buttons_7ree {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+#open_config_7ree {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  margin-left: 10px; /* Add margin to separate from theme toggle */
+}
+
+#theme_toggle_7ree {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+#theme_toggle_7ree:hover, #open_config_7ree:hover {
+  background-color: var(--header-bg-hover);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 12px 0;
+}
+
+/* Calendar Styles */
+#calendar_7ree {
+    padding: 8px;
+}
+.calendar-header_7ree {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    margin-bottom: 10px;
+}
+
+.calendar-header_7ree span {
+    font-size: 18px; /* Larger font size for the month/year text */
+    font-weight: bold;
+}
+
+.calendar-nav-btn_7ree {
+    background: none;
+    border: none;
+    font-size: 14px; /* Smaller font size for arrows */
+    cursor: pointer;
+    width:30px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    color: var(--text-color);
+}
+
+.calendar-nav-btn_7ree:hover {
+    background-color: var(--header-bg-hover);
+}
+.calendar-grid-body_7ree {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+.calendar-weekday_7ree {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+.calendar-day_7ree {
+    font-size: 13px;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    position: relative;
+}
+.calendar-day_7ree.today_7ree {
+    background-color: var(--border-color);
+    border-radius: 50%;
+}
+.calendar-day_7ree.punched-day_7ree {
+    color: var(--punched-day-color); /* Dark green text */
+    font-weight: bold;
+}
+
+.log-marker_7ree {
+    font-size: 14px;
+    position: absolute;
+    bottom: -2px;
+    opacity: 0.8;
+}
+
+
+/* Project List Styles */
+#projects_7ree {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.project-card_7ree {
+  background-color: var(--card-bg-color);
+  border-radius: 5px;
+  padding: 12px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.project-card_7ree:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.project-info_7ree h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+}
+
+.project-info_7ree p {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: var(--empty-state-color);
+}
+
+.study-days_7ree {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--punch-button-bg);
+}
+
+.punch-btn_7ree {
+  background-color: var(--punch-button-bg);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.punch-btn_7ree:hover {
+  background-color: var(--punch-button-hover-bg);
+}
+
+.empty-state_7ree {
+    text-align: center;
+    color: var(--empty-state-color);
+    padding: 20px;
+}
+
+/* Button base styles - Unified Gray 3D */
+.edit-btn, .delete-btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none; /* Remove border for 3D effect with shadow */
+    background-color: var(--button-bg-color); /* Unified light gray background */
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle 3D effect */
+    color: var(--button-text-color); /* Default text color for edit button */
+}
+
+/* Specific text color for delete button */
+.delete-btn {
+    color: var(--delete-button-text); /* Original delete text color */
+}
+
+#project-form_7ree button[type="submit"] {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+
+/* General Button Hover Style */
+.edit-btn:hover, .delete-btn:hover, #project-form_7ree button[type="submit"]:hover, .punch-btn_7ree:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Specific hover styles for edit/delete buttons */
+.edit-btn:hover, .delete-btn:hover {
+    font-weight: bold; /* Bold text on hover */
+}
+
+.edit-btn:hover{
+  background-color: var(--button-hover-bg);
+}
+
+.delete-btn:hover {
+   background-color: var(--delete-button-hover-bg); 
+}
+
+#project-form_7ree button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.punch-btn_7ree:hover {
+  background-color: var(--punch-button-hover-bg);
+}
+
+
+/* Project List Item in Config Page */
+.project-list-item {
+    background-color: var(--card-bg-color);
+    border-radius: 5px;
+    padding: 12px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Add some space between items */
+    transition: box-shadow 0.2s;
+}
+
+.project-list-item:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.project-list-item div > small:nth-of-type(2) {
+    color: var(--project-summary-color);
+    font-style: italic;
+}
+
+/* Log List Item in Config Page */
+.log-list-item {
+    background-color: var(--card-bg-color);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.log-list-item span {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.delete-log-btn {
+    background-color: var(--delete-button-text);
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s;
+}
+
+.delete-log-btn:hover {
+    background-color: var(--delete-button-hover-bg);
+}
+
+/* Punch Button in Sidebar */
+.punch-btn_7ree {
+  flex-shrink: 0;
+  min-width: 70px;
+  text-align: center;
+}
+
+/* Punched-in state for project card */
+.project-card_7ree.punched-in_7ree {
+    background-color: var(--punched-card-bg); /* Light green background */
+}
+
+/* Punched-in state for punch button */
+.punch-btn_7ree.punched-in_7ree {
+    background-color: transparent; /* No background */
+    color: var(--punched-day-color); /* Dark green text */
+    cursor: default; /* No pointer cursor */
+    box-shadow: none; /* No shadow */
+    padding: 8px 0; /* Adjust padding to look less like a button */
+    font-weight: bold;
+}
+
+.punch-btn_7ree.punched-in_7ree:hover {
+    background-color: transparent; /* No background on hover */
+    transform: none; /* No transform on hover */
+    box-shadow: none; /* No shadow on hover */
+}
+
+.calendar-tooltip_7ree {
+    position: absolute;
+    background-color: var(--tooltip-bg-color);
+    color: var(--tooltip-text-color);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 1000;
+    pointer-events: none; /* Allow clicks to pass through */
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
