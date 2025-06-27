@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const calendarEl_7ree = document.getElementById('calendar_7ree');
     const projectsEl_7ree = document.getElementById('projects_7ree');
     const currentDateEl_7ree = document.getElementById('current_date_7ree');
+    
     const themeToggleBtn = document.getElementById('theme_toggle_7ree');
 
     // Set i18n for document title

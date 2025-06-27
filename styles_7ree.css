@@ -80,7 +80,6 @@ h2 {
   padding: 4px;
   border-radius: 50%;
   transition: background-color 0.2s;
-  margin-left: 10px; /* Add margin to separate from theme toggle */
 }
 
 #theme_toggle_7ree {

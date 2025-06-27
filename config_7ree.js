@@ -130,13 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = target.dataset.id;
 
         if (target.classList.contains('delete-btn')) {
-            showConfirmDialog(chrome.i18n.getMessage('confirmDeleteProject'), (confirmed) => {
+            const projectToDelete = projects.find(p => p.id == id);
+            if (projectToDelete) {
+                showConfirmDialog(chrome.i18n.getMessage('confirmDeleteProject', [projectToDelete.name]), (confirmed) => {
                 if (confirmed) {
                     projects = projects.filter(p => p.id != id);
                     Storage_7ree.saveProjects_7ree(projects);
                     renderProjectList();
                 }
             });
+            }
         } else if (target.classList.contains('edit-btn')) {
             const project = projects.find(p => p.id == id);
             projectIdInput.value = project.id;
@@ -218,13 +221,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDeleteLog(e) {
         const target = e.target;
         if (target.classList.contains('delete-log-btn')) {
-            showConfirmDialog(chrome.i18n.getMessage('confirmDeleteLog'), (confirmed) => {
-                if (confirmed) {
-                    const dateToDelete = target.dataset.date;
-                    const projectIdToDelete = target.dataset.projectId;
-                    const timeToDelete = target.dataset.time;
-                    const originalIndexToDelete = parseInt(target.dataset.originalIndex);
+            const projectsData = Storage_7ree.getProjects_7ree();
+            const projectIdToDelete = target.dataset.projectId;
+            const project = projectsData.find(p => p.id == projectIdToDelete);
+            const projectName = project ? project.name : chrome.i18n.getMessage('unknownProject');
 
+            const dateToDelete = target.dataset.date;
+            const timeToDelete = target.dataset.time;
+            const originalIndexToDelete = parseInt(target.dataset.originalIndex);
+
+            const logInfo = `${dateToDelete} ${timeToDelete} - ${projectName}`;
+            showConfirmDialog(chrome.i18n.getMessage('confirmDeleteLog', [logInfo]), (confirmed) => {
+                if (confirmed) {
                     let logs = Storage_7ree.getLogs_7ree();
 
                     if (logs[dateToDelete] && logs[dateToDelete][projectIdToDelete]) {

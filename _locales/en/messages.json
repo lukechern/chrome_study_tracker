@@ -16,7 +16,7 @@
   "delete": { "message": "Delete" },
   "confirmDeleteProject": { "message": "Are you sure you want to delete this project?" },
   "noPunchData": { "message": "No punch-in data yet." },
-  "confirmDeleteLog": { "message": "Are you sure you want to delete this log?" },
+  "confirmDeleteLog": { "message": "Are you sure you want to delete the punch-in record for \"$LOG_INFO$\"?", "placeholders": { "LOG_INFO": { "content": "$1" } } },
   "unknownProject": { "message": "Unknown Project" },
   "oldFormat": { "message": "Old Format" },
   "learningCalendar": { "message": "Study Calendar" },
