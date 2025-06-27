@@ -4,8 +4,8 @@ export const Storage_7ree = {
     const projects = localStorage.getItem('projects_7ree');
     if (!projects) {
       const defaultProjects = [
-        { id: 1, name: '学习JavaScript', url: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript', desc: 'MDN JavaScript 指南' },
-        { id: 2, name: 'React教程', url: 'https://react.dev/learn', desc: 'React官方文档' }
+        { id: 1, name: chrome.i18n.getMessage('defaultProject1_name'), url: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript', desc: chrome.i18n.getMessage('defaultProject1_desc') },
+        { id: 2, name: chrome.i18n.getMessage('defaultProject2_name'), url: 'https://react.dev/learn', desc: chrome.i18n.getMessage('defaultProject2_desc') }
       ];
       this.saveProjects_7ree(defaultProjects);
       return defaultProjects;

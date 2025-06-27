@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentDateEl_7ree = document.getElementById('current_date_7ree');
     const themeToggleBtn = document.getElementById('theme_toggle_7ree');
 
+    // Set i18n for document title
+    document.title = chrome.i18n.getMessage('learningCalendar');
+
+    // Set the title of the sidebar
+    document.querySelector('.header_7ree h2').textContent = chrome.i18n.getMessage('learningCalendar');
+
     // Function to apply theme
     function applyTheme(theme) {
         document.body.classList.remove('light-mode', 'dark-mode');
@@ -26,14 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme_7ree', newTheme);
         applyTheme(newTheme);
     });
-    themeToggleBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, '切换主题'));
+    themeToggleBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, chrome.i18n.getMessage('toggleTheme')));
     themeToggleBtn.addEventListener('mouseout', hideTooltip);
 
     // Event listener for open_config_7ree button
     document.getElementById('open_config_7ree').addEventListener('click', () => {
         chrome.tabs.create({ url: chrome.runtime.getURL('config_7ree.html') });
     });
-    document.getElementById('open_config_7ree').addEventListener('mouseover', (e) => showTooltip(e.currentTarget, '设置'));
+    document.getElementById('open_config_7ree').addEventListener('mouseover', (e) => showTooltip(e.currentTarget, chrome.i18n.getMessage('settings')));
     document.getElementById('open_config_7ree').addEventListener('mouseout', hideTooltip);
 
     function handlePunchIn(e) {
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         projectsEl_7ree.innerHTML = '';
 
         if (projects.length === 0) {
-            projectsEl_7ree.innerHTML = `<p class="empty-state_7ree">暂无学习项目。点击⚙️图标添加一个！</p>`;
+            projectsEl_7ree.innerHTML = `<p class="empty-state_7ree">${chrome.i18n.getMessage('noLearningProjects')}</p>`;
             return;
         }
 
@@ -104,10 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="project-info_7ree">
                     <h3 data-desc="${p.desc}">${p.name}</h3>
-                    <p class="study-days_7ree">累计打卡 ${totalDays} 天</p>
+                    <p class="study-days_7ree">${chrome.i18n.getMessage('totalPunchedIn', [totalDays])}</p>
                 </div>
                 <button class="punch-btn_7ree ${isPunched ? 'punched-in_7ree' : ''}" data-id="${p.id}" data-url="${p.url}" ${isPunched ? 'disabled' : ''}>
-                    ${isPunched ? '今日已打卡' : '打卡'}
+                    ${isPunched ? chrome.i18n.getMessage('punchedInToday') : chrome.i18n.getMessage('punchIn')}
                 </button>
             `;
             projectsEl_7ree.appendChild(card);
@@ -140,8 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderAll() {
         const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        currentDateEl_7ree.textContent = now.toLocaleDateString('zh-CN', options);
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        currentDateEl_7ree.textContent = `${year}-${month}-${day}`;
 
         renderCalendar_7ree(calendarEl_7ree, now.getFullYear(), now.getMonth());
         renderProjects_7ree();

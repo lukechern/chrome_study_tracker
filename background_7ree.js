@@ -1,6 +1,6 @@
-// 此脚本处理扩展程序的后台任务。
+// This script handles background tasks for the extension.
 
-// 点击操作图标时打开侧边栏。
+// Open the side panel when the action icon is clicked.
 chrome.action.onClicked.addListener((tab) => {
   chrome.sidePanel.open({ windowId: tab.windowId });
 });

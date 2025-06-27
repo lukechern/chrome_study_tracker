@@ -16,7 +16,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
   prevYearBtn.textContent = '<<';
   prevYearBtn.className = 'calendar-nav-btn_7ree';
   prevYearBtn.addEventListener('click', () => renderCalendar_7ree(container, displayYear - 1, displayMonth));
-  prevYearBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, '上一年'));
+  prevYearBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, chrome.i18n.getMessage('prevYear')));
   prevYearBtn.addEventListener('mouseout', hideTooltip);
   header.appendChild(prevYearBtn);
 
@@ -32,12 +32,12 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
     }
     renderCalendar_7ree(container, newYear, newMonth);
   });
-  prevMonthBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, '上一月'));
+  prevMonthBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, chrome.i18n.getMessage('prevMonth')));
   prevMonthBtn.addEventListener('mouseout', hideTooltip);
   header.appendChild(prevMonthBtn);
 
   const monthYearSpan = document.createElement('span');
-  monthYearSpan.textContent = `${displayYear}年${new Date(displayYear, displayMonth).getMonth() + 1}月`;
+  monthYearSpan.textContent = `${displayYear}-${String(displayMonth + 1).padStart(2, '0')}`;
   monthYearSpan.style.cursor = 'pointer';
   monthYearSpan.addEventListener('click', () => {
     renderCalendar_7ree(container, new Date().getFullYear(), new Date().getMonth());
@@ -56,7 +56,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
     }
     renderCalendar_7ree(container, newYear, newMonth);
   });
-  nextMonthBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, '下一月'));
+  nextMonthBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, chrome.i18n.getMessage('nextMonth')));
   nextMonthBtn.addEventListener('mouseout', hideTooltip);
   header.appendChild(nextMonthBtn);
 
@@ -64,7 +64,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
   nextYearBtn.textContent = '>>';
   nextYearBtn.className = 'calendar-nav-btn_7ree';
   nextYearBtn.addEventListener('click', () => renderCalendar_7ree(container, displayYear + 1, displayMonth));
-  nextYearBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, '下一年'));
+  nextYearBtn.addEventListener('mouseover', (e) => showTooltip(e.currentTarget, chrome.i18n.getMessage('nextYear')));
   nextYearBtn.addEventListener('mouseout', hideTooltip);
   header.appendChild(nextYearBtn);
 
@@ -75,7 +75,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
   calendarGrid.className = 'calendar-grid-body_7ree';
 
   // 星期几的标题
-  const daysOfWeek = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  const daysOfWeek = [chrome.i18n.getMessage('dayOfWeek_Mon'), chrome.i18n.getMessage('dayOfWeek_Tue'), chrome.i18n.getMessage('dayOfWeek_Wed'), chrome.i18n.getMessage('dayOfWeek_Thu'), chrome.i18n.getMessage('dayOfWeek_Fri'), chrome.i18n.getMessage('dayOfWeek_Sat'), chrome.i18n.getMessage('dayOfWeek_Sun')];
   daysOfWeek.forEach(day => {
     const dayHeader = document.createElement('div');
     dayHeader.className = 'calendar-weekday_7ree';
@@ -126,7 +126,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
         const date = targetCell.dataset.date;
         const dailyLogs = logs[date];
         if (dailyLogs) {
-          let tooltipContent = `当日打卡项目：<br>`;
+          let tooltipContent = `${chrome.i18n.getMessage('punchInAchievements')}<br>`;
           let count = 1;
           for (const projectId in dailyLogs) {
             const project = projects.find(p => p.id == projectId);
@@ -137,7 +137,7 @@ export function renderCalendar_7ree(container, displayYear = new Date().getFullY
                 tooltipContent += `${count++}. ${project.name} [${time}]<br>`;
               });
             } else if (project && typeof projectPunches === 'number') { // Handle old format (number)
-              tooltipContent += `(${count++}) ${project.name} (打卡${projectPunches}次)<br>`;
+              tooltipContent += `(${count++}) ${project.name} (${chrome.i18n.getMessage('punchedInCount', [projectPunches])})<br>`;
             }
           }
           if (tooltipContent) {

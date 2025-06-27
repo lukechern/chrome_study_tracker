@@ -17,6 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmYesBtn = document.getElementById('confirm-yes');
     const confirmNoBtn = document.getElementById('confirm-no');
 
+    // Set i18n for document title
+    document.title = chrome.i18n.getMessage('configTitle');
+
+    // Set i18n text content for various elements
+    document.querySelector('h1').textContent = chrome.i18n.getMessage('manageProjects');
+    document.querySelector('button[data-tab="add-project"]').textContent = chrome.i18n.getMessage('addProject');
+    document.querySelector('button[data-tab="list-projects"]').textContent = chrome.i18n.getMessage('existingProjects');
+    document.querySelector('button[data-tab="view-data"]').textContent = chrome.i18n.getMessage('punchData');
+    document.getElementById('form-title').textContent = chrome.i18n.getMessage('addProject');
+    document.querySelector('label[for="project-name_7ree"]').textContent = chrome.i18n.getMessage('projectName');
+    document.querySelector('label[for="project-url_7ree"]').textContent = chrome.i18n.getMessage('projectURL');
+    document.querySelector('label[for="project-desc_7ree"]').textContent = chrome.i18n.getMessage('projectDesc');
+    document.querySelector('button[type="submit"]').textContent = chrome.i18n.getMessage('saveProject');
+    document.querySelector('#list-projects-tab h2').textContent = chrome.i18n.getMessage('existingProjects');
+    document.querySelector('#view-data-tab h2').textContent = chrome.i18n.getMessage('punchData');
+    document.getElementById('confirm-yes').textContent = chrome.i18n.getMessage('confirm');
+    document.getElementById('confirm-no').textContent = chrome.i18n.getMessage('cancel');
+
     let projects = Storage_7ree.getProjects_7ree();
 
     function showTab(tabId) {
@@ -63,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProjectList() {
         projectListDiv.innerHTML = '';
         if (projects.length === 0) {
-            projectListDiv.innerHTML = '<p>暂无项目。请在上方添加！</p>';
+            projectListDiv.innerHTML = `<p>${chrome.i18n.getMessage('noProjects')}</p>`;
             return;
         }
         projects.forEach(project => {
@@ -76,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <small class="project-summary">${project.desc}</small>
                 </div>
                 <div>
-                    <button class="edit-btn" data-id="${project.id}">编辑</button>
-                    <button class="delete-btn" data-id="${project.id}">删除</button>
+                    <button class="edit-btn" data-id="${project.id}">${chrome.i18n.getMessage('edit')}</button>
+                    <button class="delete-btn" data-id="${project.id}">${chrome.i18n.getMessage('delete')}</button>
                 </div>
             `;
             projectListDiv.appendChild(item);
@@ -112,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = target.dataset.id;
 
         if (target.classList.contains('delete-btn')) {
-            showConfirmDialog('确定要删除此项目吗？', (confirmed) => {
+            showConfirmDialog(chrome.i18n.getMessage('confirmDeleteProject'), (confirmed) => {
                 if (confirmed) {
                     projects = projects.filter(p => p.id != id);
                     Storage_7ree.saveProjects_7ree(projects);
@@ -125,8 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
             projectNameInput.value = project.name;
             projectUrlInput.value = project.url;
             projectDescInput.value = project.desc;
-            formTitle.textContent = '编辑项目';
-            document.querySelector('.tab-button[data-tab="add-project"]').textContent = '编辑项目';
+            formTitle.textContent = chrome.i18n.getMessage('editProject');
+            document.querySelector('.tab-button[data-tab="add-project"]').textContent = chrome.i18n.getMessage('editProject');
             showTab('add-project-tab'); // 编辑时切换到添加项目Tab
             window.scrollTo(0, 0);
         }
@@ -135,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetForm() {
         projectForm.reset();
         projectIdInput.value = '';
-        formTitle.textContent = '添加新项目';
-        document.querySelector('.tab-button[data-tab="add-project"]').textContent = '添加新项目';
+        formTitle.textContent = chrome.i18n.getMessage('addProject');
+        document.querySelector('.tab-button[data-tab="add-project"]').textContent = chrome.i18n.getMessage('addProject');
     }
 
     function renderLogList() {
@@ -156,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             date: date,
                             projectId: projectId,
                             time: time,
-                            projectName: project ? project.name : '未知项目',
+                            projectName: project ? project.name : chrome.i18n.getMessage('unknownProject'),
                             originalIndex: index // Store original index for deletion
                         });
                     });
@@ -165,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         logItems.push({
                             date: date,
                             projectId: projectId,
-                            time: '旧格式',
-                            projectName: project ? project.name : '未知项目',
+                            time: chrome.i18n.getMessage('oldFormat'),
+                            projectName: project ? project.name : chrome.i18n.getMessage('unknownProject'),
                             originalIndex: i // Store original index for deletion
                         });
                     }
@@ -175,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (logItems.length === 0) {
-            logListDiv.innerHTML = '<p>暂无打卡数据。</p>';
+            logListDiv.innerHTML = `<p>${chrome.i18n.getMessage('noPunchData')}</p>`;
             return;
         }
 
@@ -191,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.className = 'log-list-item';
             item.innerHTML = `
                 <span>${log.date} ${log.time} - ${log.projectName}</span>
-                <button class="delete-log-btn" data-date="${log.date}" data-project-id="${log.projectId}" data-time="${log.time}" data-original-index="${log.originalIndex}">删除</button>
+                <button class="delete-log-btn" data-date="${log.date}" data-project-id="${log.projectId}" data-time="${log.time}" data-original-index="${log.originalIndex}">${chrome.i18n.getMessage('delete')}</button>
             `;
             logListDiv.appendChild(item);
         });
@@ -200,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDeleteLog(e) {
         const target = e.target;
         if (target.classList.contains('delete-log-btn')) {
-            showConfirmDialog('确定要删除此记录吗？', (confirmed) => {
+            showConfirmDialog(chrome.i18n.getMessage('confirmDeleteLog'), (confirmed) => {
                 if (confirmed) {
                     const dateToDelete = target.dataset.date;
                     const projectIdToDelete = target.dataset.projectId;
